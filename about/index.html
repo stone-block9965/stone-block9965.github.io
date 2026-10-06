@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - stone block</title>
+
+    <style>
+        :root {
+            --text: #111;
+            --subtext: #666;
+            --glass: rgba(255, 255, 255, 0.58);
+            --glass-border: rgba(255, 255, 255, 0.7);
+            --shadow: rgba(0, 0, 0, 0.10);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "SF Pro Display",
+                "Helvetica Neue",
+                "Noto Sans JP",
+                sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 20%, rgba(140, 170, 255, 0.22), transparent 32%),
+                radial-gradient(circle at 85% 25%, rgba(255, 180, 220, 0.20), transparent 30%),
+                radial-gradient(circle at 50% 85%, rgba(150, 230, 200, 0.18), transparent 35%),
+                linear-gradient(135deg, #f7f7fa, #eef1f7);
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        body::before {
+            width: 280px;
+            height: 280px;
+            background: rgba(120, 150, 255, 0.18);
+            top: 5%;
+            left: -70px;
+        }
+
+        body::after {
+            width: 320px;
+            height: 320px;
+            background: rgba(255, 160, 210, 0.15);
+            right: -90px;
+            bottom: 5%;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: 74px;
+            display: flex;
+            align-items: center;
+            padding: 0 34px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .topbar-inner {
+            width: 100%;
+            max-width: 1180px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 34px;
+        }
+
+        .brand {
+            color: #000;
+            text-decoration: none;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            white-space: nowrap;
+        }
+
+        .nav-link {
+            color: #111;
+            text-decoration: none;
+            font-size: 17px;
+            transition: opacity 0.2s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 0.55;
+        }
+
+        .container {
+            width: min(760px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 72px 0 54px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 46px;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(52px, 9vw, 88px);
+            line-height: 0.95;
+            letter-spacing: -0.055em;
+            font-weight: 800;
+        }
+
+        .hero p {
+            margin: 20px auto 0;
+            color: var(--subtext);
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .section {
+            margin-top: 22px;
+            padding: 28px;
+            border-radius: 28px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 60px var(--shadow);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+        }
+
+        .section h2 {
+            margin: 0 0 18px;
+            font-size: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .section p {
+            margin: 0;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.85;
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 8px;
+            color: #777;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .value {
+            color: #111;
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .specs {
+            margin-top: 10px;
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.42);
+            border: 1px solid rgba(255, 255, 255, 0.62);
+            font-size: 15px;
+            line-height: 1.95;
+        }
+
+        .specs div {
+            padding: 2px 0;
+        }
+
+        .footer {
+            margin-top: 36px;
+            text-align: center;
+            color: #777;
+            font-size: 13px;
+        }
+
+        @media (max-width: 640px) {
+            .topbar {
+                height: 66px;
+                padding: 0 20px;
+            }
+
+            .topbar-inner {
+                gap: 22px;
+            }
+
+            .brand {
+                font-size: 23px;
+            }
+
+            .nav-link {
+                font-size: 15px;
+            }
+
+            .container {
+                padding-top: 52px;
+            }
+
+            .section {
+                padding: 22px;
+                border-radius: 22px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="/">stone block</a>
+            <a class="nav-link" href="/about/">About</a>
+            <a class="nav-link" href="/links/">リンク</a>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="hero">
+            <h1>About</h1>
+            <p>stone blockについて</p>
+        </section>
+
+        <section class="section">
+            <h2>名前</h2>
+            <p>stone block</p>
+        </section>
+
+        <section class="section">
+            <h2>About me</h2>
+            <p>Minecraftのなにかを作ったり、なんか色々してます(？)</p>
+        </section>
+
+        <section class="section">
+            <h2>趣味・興味・好きなもの</h2>
+            <p>Minecraft / Linux / PC / Web制作 / ガジェット</p>
+        </section>
+
+        <section class="section">
+            <h2>このサイトについて</h2>
+            <p>このサイトでは、なんか適当に作ってます(？)</p>
+        </section>
+
+        <section class="section">
+            <h2>Environment</h2>
+
+            <div class="info-grid">
+
+                <div>
+                    <span class="label">メイン機</span>
+                    <div class="value">
+                        OS: CachyOS<br>
+                        Desktop: KDE Plasma
+
+                        <div class="specs">
+                            <div>i5-12600KF</div>
+                            <div>GTX 1080 FE</div>
+                            <div>8GB×4 DDR4</div>
+                            <div>Fanxiang 500GB NVMe</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="label">メインスマホ</span>
+                    <div class="value">
+                        Galaxy S26(SM8850)
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="footer">
+            © stone block 2026
+        </div>
+
+    </main>
+
+</body>
+</html>
