@@ -91,7 +91,7 @@
         }
 
         /* =========================
-           Apple-style navigation
+           Top navigation
         ========================= */
 
         .topbar {
@@ -111,26 +111,26 @@
 
         .nav-inner {
             width: min(1180px, calc(100% - 40px));
-            min-height: 64px;
+            min-height: 68px;
 
             margin: 0 auto;
 
             display: flex;
             align-items: center;
 
-            gap: 32px;
+            gap: 34px;
 
-            padding-left: 8%;
+            padding-left: 7%;
         }
 
         .brand {
             color: #000000;
             text-decoration: none;
 
-            font-size: clamp(25px, 3vw, 34px);
+            font-size: clamp(26px, 3vw, 36px);
             font-weight: 800;
 
-            letter-spacing: -0.05em;
+            letter-spacing: -0.055em;
             line-height: 1;
 
             white-space: nowrap;
@@ -139,14 +139,14 @@
         }
 
         .brand:hover {
-            opacity: 0.68;
+            opacity: 0.62;
         }
 
         .nav-link {
             color: #333333;
             text-decoration: none;
 
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
 
             white-space: nowrap;
@@ -158,7 +158,7 @@
 
         .nav-link:hover {
             color: #000000;
-            opacity: 0.65;
+            opacity: 0.62;
         }
 
         .brand:focus-visible,
@@ -175,26 +175,40 @@
             width: min(760px, calc(100% - 40px));
             margin: 0 auto;
 
-            padding: 82px 0 60px;
+            padding: 100px 0 60px;
         }
 
         .hero {
             text-align: center;
         }
 
+        .hero-title {
+            margin: 0;
+
+            font-size: clamp(56px, 11vw, 100px);
+            line-height: 1;
+
+            letter-spacing: -0.065em;
+
+            font-weight: 850;
+
+            color: #000000;
+        }
+
         .hero-description {
-            margin: 0 auto;
+            margin: 24px auto 0;
 
             max-width: 600px;
 
             color: var(--subtext);
 
             font-size: clamp(15px, 2.5vw, 17px);
+
             line-height: 1.8;
         }
 
         .keep-banner {
-            margin-top: 28px;
+            margin-top: 30px;
 
             display: flex;
             justify-content: center;
@@ -202,14 +216,14 @@
         }
 
         /* =========================
-           Home cards
+           Home links
         ========================= */
 
         .home-links {
             display: grid;
             gap: 14px;
 
-            margin-top: 48px;
+            margin-top: 52px;
         }
 
         .glass-button {
@@ -359,15 +373,15 @@
             .nav-inner {
                 width: min(100% - 28px, 1180px);
 
-                min-height: 60px;
+                min-height: 62px;
 
                 gap: 22px;
 
-                padding-left: 3%;
+                padding-left: 2%;
             }
 
             .brand {
-                font-size: 24px;
+                font-size: 25px;
             }
 
             .nav-link {
@@ -376,7 +390,11 @@
 
             .container {
                 width: min(100% - 28px, 760px);
-                padding-top: 68px;
+                padding-top: 78px;
+            }
+
+            .hero-title {
+                font-size: clamp(52px, 13vw, 80px);
             }
         }
 
@@ -387,11 +405,20 @@
             }
 
             .brand {
-                font-size: 21px;
+                font-size: 22px;
             }
 
             .nav-link {
                 font-size: 12px;
+            }
+
+            .hero-title {
+                font-size: clamp(44px, 12vw, 68px);
+            }
+
+            .glass-button {
+                min-height: 70px;
+                border-radius: 20px;
             }
         }
 
@@ -443,6 +470,10 @@
 
         <section class="hero">
 
+            <h1 class="hero-title">
+                Hello, World!
+            </h1>
+
             <p class="hero-description">
                 いろいろ作ったものとかのせてるとこなど
             </p>
@@ -456,7 +487,7 @@
 
         <section
             class="home-links"
-            aria-label="コンテンツ"
+            aria-label="リンク"
         >
 
             <a
@@ -483,38 +514,18 @@
 
             <a
                 class="glass-button"
-                href="/color/"
+                href="https://x.com/stone_block9965"
+                target="_blank"
+                rel="noopener noreferrer"
             >
                 <span class="button-text">
 
                     <span class="button-title">
-                        色違い探し
+                        X垢
                     </span>
 
                     <span class="button-subtitle">
-                        色の違いを見つけるゲーム
-                    </span>
-
-                </span>
-
-                <span class="arrow" aria-hidden="true">
-                    →
-                </span>
-            </a>
-
-
-            <a
-                class="glass-button"
-                href="/bottleneck-checker/"
-            >
-                <span class="button-text">
-
-                    <span class="button-title">
-                        CPU / GPU ボトルネックチェッカー
-                    </span>
-
-                    <span class="button-subtitle">
-                        CPUとGPUのバランスをチェック
+                        @stone_block9965
                     </span>
 
                 </span>
