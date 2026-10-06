@@ -91,7 +91,7 @@
         }
 
         /* =========================
-           Top Navigation
+           Apple-style navigation
         ========================= */
 
         .topbar {
@@ -101,52 +101,55 @@
 
             width: 100%;
 
-            background: rgba(255, 255, 255, 0.96);
+            background: #ffffff;
+
             border-bottom: 1px solid var(--nav-border);
 
             box-shadow:
-                0 8px 24px rgba(0, 0, 0, 0.06);
-
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+                0 4px 18px rgba(0, 0, 0, 0.05);
         }
 
         .nav-inner {
-            width: min(1120px, calc(100% - 40px));
-            min-height: 72px;
+            width: min(1180px, calc(100% - 40px));
+            min-height: 64px;
 
             margin: 0 auto;
 
             display: flex;
             align-items: center;
-            justify-content: center;
 
-            position: relative;
+            gap: 32px;
+
+            padding-left: 8%;
         }
 
-        .nav-left {
-            position: absolute;
-            left: 0;
+        .brand {
+            color: #000000;
+            text-decoration: none;
 
-            display: flex;
-            align-items: center;
-            gap: 28px;
+            font-size: clamp(25px, 3vw, 34px);
+            font-weight: 800;
+
+            letter-spacing: -0.05em;
+            line-height: 1;
+
+            white-space: nowrap;
+
+            transition: opacity 160ms ease;
         }
 
-        .nav-right {
-            position: absolute;
-            right: 0;
-
-            display: flex;
-            align-items: center;
+        .brand:hover {
+            opacity: 0.68;
         }
 
         .nav-link {
-            color: #444;
+            color: #333333;
             text-decoration: none;
 
             font-size: 14px;
             font-weight: 500;
+
+            white-space: nowrap;
 
             transition:
                 color 160ms ease,
@@ -154,66 +157,14 @@
         }
 
         .nav-link:hover {
-            color: #000;
+            color: #000000;
+            opacity: 0.65;
         }
 
-        .brand {
-            color: #000;
-            text-decoration: none;
-
-            font-size: clamp(24px, 3vw, 32px);
-            font-weight: 800;
-
-            letter-spacing: -0.045em;
-
-            line-height: 1;
-        }
-
-        .nav-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            min-height: 40px;
-            padding: 0 18px;
-
-            border-radius: 999px;
-
-            background: #111;
-            color: #fff;
-
-            text-decoration: none;
-
-            font-size: 14px;
-            font-weight: 650;
-
-            box-shadow:
-                0 4px 12px rgba(0, 0, 0, 0.14);
-
-            transition:
-                transform 160ms ease,
-                background 160ms ease,
-                box-shadow 160ms ease;
-        }
-
-        .nav-button:hover {
-            background: #000;
-
-            transform: translateY(-1px);
-
-            box-shadow:
-                0 7px 18px rgba(0, 0, 0, 0.18);
-        }
-
-        .nav-button:active {
-            transform: scale(0.98);
-        }
-
-        .nav-link:focus-visible,
-        .nav-button:focus-visible,
-        .brand:focus-visible {
+        .brand:focus-visible,
+        .nav-link:focus-visible {
             outline: 3px solid rgba(78, 120, 255, 0.35);
-            outline-offset: 4px;
+            outline-offset: 5px;
         }
 
         /* =========================
@@ -223,35 +174,22 @@
         .container {
             width: min(760px, calc(100% - 40px));
             margin: 0 auto;
-            padding: 90px 0 60px;
+
+            padding: 82px 0 60px;
         }
 
         .hero {
             text-align: center;
         }
 
-        .hero-title {
-            margin: 0;
-
-            font-size: clamp(42px, 9vw, 72px);
-            line-height: 1.03;
-
-            letter-spacing: -0.055em;
-
-            font-weight: 850;
-
-            color: #000;
-        }
-
         .hero-description {
-            margin: 18px auto 0;
+            margin: 0 auto;
 
             max-width: 600px;
 
             color: var(--subtext);
 
             font-size: clamp(15px, 2.5vw, 17px);
-
             line-height: 1.8;
         }
 
@@ -264,7 +202,7 @@
         }
 
         /* =========================
-           Home Cards
+           Home cards
         ========================= */
 
         .home-links {
@@ -419,25 +357,20 @@
 
         @media (max-width: 700px) {
             .nav-inner {
-                min-height: 64px;
-                width: min(100% - 28px, 1120px);
-            }
+                width: min(100% - 28px, 1180px);
 
-            .nav-left {
-                gap: 16px;
-            }
+                min-height: 60px;
 
-            .nav-link {
-                font-size: 13px;
+                gap: 22px;
+
+                padding-left: 3%;
             }
 
             .brand {
-                font-size: 23px;
+                font-size: 24px;
             }
 
-            .nav-button {
-                min-height: 36px;
-                padding: 0 14px;
+            .nav-link {
                 font-size: 13px;
             }
 
@@ -447,44 +380,24 @@
             }
         }
 
-        @media (max-width: 520px) {
+        @media (max-width: 500px) {
             .nav-inner {
-                justify-content: flex-start;
+                gap: 17px;
+                padding-left: 0;
             }
 
             .brand {
-                margin-left: 72px;
-            }
-
-            .nav-left {
-                gap: 12px;
-            }
-
-            .nav-right {
-                right: 0;
-            }
-
-            .nav-button {
-                padding: 0 12px;
+                font-size: 21px;
             }
 
             .nav-link {
-                display: none;
-            }
-
-            .hero-title {
-                font-size: clamp(40px, 12vw, 58px);
-            }
-
-            .glass-button {
-                min-height: 70px;
-                border-radius: 20px;
+                font-size: 12px;
             }
         }
 
         @media (prefers-reduced-motion: reduce) {
+            .brand,
             .nav-link,
-            .nav-button,
             .glass-button {
                 transition: none;
             }
@@ -495,42 +408,40 @@
 <body>
 
     <!-- =========================
-         Top Navigation
+         Navigation
     ========================= -->
 
     <header class="topbar">
-        <nav class="nav-inner" aria-label="メインナビゲーション">
 
-            <div class="nav-left">
-                <a class="nav-link" href="/about/">
-                    About
-                </a>
-            </div>
+        <nav
+            class="nav-inner"
+            aria-label="メインナビゲーション"
+        >
 
             <a class="brand" href="/">
                 stone block
             </a>
 
-            <div class="nav-right">
-                <a class="nav-button" href="/links/">
-                    リンク
-                </a>
-            </div>
+            <a class="nav-link" href="/about/">
+                About
+            </a>
+
+            <a class="nav-link" href="/links/">
+                リンク
+            </a>
 
         </nav>
+
     </header>
 
+
     <!-- =========================
-         Main Content
+         Main
     ========================= -->
 
     <main class="container">
 
         <section class="hero">
-
-            <h1 class="hero-title">
-                stone block
-            </h1>
 
             <p class="hero-description">
                 いろいろ作ったものとかのせてるとこなど
@@ -542,16 +453,26 @@
 
         </section>
 
-        <section class="home-links" aria-label="おすすめ">
 
-            <a class="glass-button" href="/links/">
+        <section
+            class="home-links"
+            aria-label="コンテンツ"
+        >
+
+            <a
+                class="glass-button"
+                href="/links/"
+            >
                 <span class="button-text">
+
                     <span class="button-title">
                         リンク
                     </span>
+
                     <span class="button-subtitle">
                         Modrinth・CurseForge・SNSなど
                     </span>
+
                 </span>
 
                 <span class="arrow" aria-hidden="true">
@@ -559,14 +480,21 @@
                 </span>
             </a>
 
-            <a class="glass-button" href="/color/">
+
+            <a
+                class="glass-button"
+                href="/color/"
+            >
                 <span class="button-text">
+
                     <span class="button-title">
                         色違い探し
                     </span>
+
                     <span class="button-subtitle">
                         色の違いを見つけるゲーム
                     </span>
+
                 </span>
 
                 <span class="arrow" aria-hidden="true">
@@ -574,14 +502,21 @@
                 </span>
             </a>
 
-            <a class="glass-button" href="/bottleneck-checker/">
+
+            <a
+                class="glass-button"
+                href="/bottleneck-checker/"
+            >
                 <span class="button-text">
+
                     <span class="button-title">
                         CPU / GPU ボトルネックチェッカー
                     </span>
+
                     <span class="button-subtitle">
                         CPUとGPUのバランスをチェック
                     </span>
+
                 </span>
 
                 <span class="arrow" aria-hidden="true">
@@ -590,6 +525,7 @@
             </a>
 
         </section>
+
 
         <footer>
             © stone block 2026
