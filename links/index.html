@@ -12,8 +12,9 @@
         }
 
         :root {
-            --text: #17202b;
+            --text: #111111;
             --subtext: #5e6a78;
+            --nav-border: rgba(0, 0, 0, 0.08);
             --glass-border: rgba(255, 255, 255, 0.65);
             --shadow: rgba(55, 75, 105, 0.18);
         }
@@ -90,118 +91,139 @@
         }
 
         /* =========================
-           共通ヘッダー
-           ========================= */
+           Top navigation
+        ========================= */
 
         .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
             width: 100%;
 
-            background: rgba(255, 255, 255, 0.92);
-            border-bottom: 1px solid rgba(30, 40, 55, 0.06);
+            background: #ffffff;
+
+            border-bottom: 1px solid var(--nav-border);
 
             box-shadow:
-                0 4px 18px rgba(55, 75, 105, 0.06);
-
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+                0 4px 18px rgba(0, 0, 0, 0.05);
         }
 
-        .topbar-inner {
+        .nav-inner {
             width: min(1180px, calc(100% - 40px));
-            min-height: 72px;
+            min-height: 68px;
 
             margin: 0 auto;
 
             display: flex;
             align-items: center;
-            justify-content: space-between;
 
-            gap: 30px;
+            gap: 34px;
+
+            padding-left: 7%;
         }
 
         .brand {
-            color: var(--text);
+            color: #000000;
             text-decoration: none;
 
-            font-size: 21px;
+            font-size: clamp(26px, 3vw, 36px);
             font-weight: 800;
-            letter-spacing: -0.025em;
+
+            letter-spacing: -0.055em;
+            line-height: 1;
 
             white-space: nowrap;
+
+            transition: opacity 160ms ease;
         }
 
-        .nav {
-            display: flex;
-            align-items: center;
-            gap: 28px;
+        .brand:hover {
+            opacity: 0.62;
         }
 
-        .nav a {
-            color: var(--text);
+        .nav-link {
+            color: #333333;
             text-decoration: none;
 
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 15px;
+            font-weight: 500;
+
+            white-space: nowrap;
 
             transition:
-                opacity 160ms ease,
-                color 160ms ease;
+                color 160ms ease,
+                opacity 160ms ease;
         }
 
-        .nav a:hover {
-            opacity: 0.58;
+        .nav-link:hover {
+            color: #000000;
+            opacity: 0.62;
         }
 
-        .nav a[aria-current="page"] {
-            color: #4f6fff;
+        .brand:focus-visible,
+        .nav-link:focus-visible {
+            outline: 3px solid rgba(78, 120, 255, 0.35);
+            outline-offset: 5px;
         }
 
         /* =========================
-           本文
-           ========================= */
+           Main
+        ========================= */
 
         .container {
             width: min(760px, calc(100% - 40px));
             margin: 0 auto;
-            padding: 70px 0 60px;
+
+            padding: 100px 0 60px;
         }
 
-        .back {
-            display: inline-block;
-            margin-bottom: 30px;
+        .page {
+            text-align: center;
+        }
+
+        .page-title {
+            margin: 0;
+
+            font-size: clamp(56px, 11vw, 100px);
+            line-height: 1;
+
+            letter-spacing: -0.065em;
+
+            font-weight: 850;
+
+            color: #000000;
+        }
+
+        .page-description {
+            margin: 24px auto 0;
+
+            max-width: 600px;
 
             color: var(--subtext);
-            text-decoration: none;
 
-            font-size: 14px;
+            font-size: clamp(15px, 2.5vw, 17px);
+
+            line-height: 1.8;
         }
 
-        .back:hover {
-            text-decoration: underline;
+        .keep-banner {
+            margin-top: 30px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .site-name {
-            margin: 0 0 10px;
-
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-
-            color: var(--subtext);
-        }
-
-        h1 {
-            margin: 0 0 34px;
-
-            font-size: clamp(34px, 6vw, 52px);
-            line-height: 1.08;
-            letter-spacing: -0.04em;
-            font-weight: 800;
-        }
+        /* =========================
+           Links
+        ========================= */
 
         .links {
             display: grid;
             gap: 14px;
+
+            margin-top: 52px;
         }
 
         .glass-button {
@@ -212,7 +234,7 @@
             justify-content: space-between;
 
             width: 100%;
-            min-height: 72px;
+            min-height: 76px;
 
             padding: 16px 18px 16px 22px;
 
@@ -294,6 +316,8 @@
         .button-text {
             position: relative;
             z-index: 1;
+
+            text-align: left;
         }
 
         .button-title {
@@ -334,7 +358,7 @@
         }
 
         footer {
-            margin-top: 34px;
+            margin-top: 46px;
 
             text-align: center;
 
@@ -343,38 +367,67 @@
             color: rgba(65, 77, 93, 0.65);
         }
 
-        @media (max-width: 600px) {
-            .topbar-inner {
+        /* =========================
+           Mobile
+        ========================= */
+
+        @media (max-width: 700px) {
+            .nav-inner {
                 width: min(100% - 28px, 1180px);
-                min-height: 64px;
+
+                min-height: 62px;
+
+                gap: 22px;
+
+                padding-left: 2%;
             }
 
             .brand {
-                font-size: 19px;
+                font-size: 25px;
             }
 
-            .nav {
-                gap: 17px;
-            }
-
-            .nav a {
+            .nav-link {
                 font-size: 13px;
             }
 
             .container {
                 width: min(100% - 28px, 760px);
-                padding-top: 50px;
+                padding-top: 78px;
+            }
+
+            .page-title {
+                font-size: clamp(52px, 13vw, 80px);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .nav-inner {
+                gap: 17px;
+                padding-left: 0;
+            }
+
+            .brand {
+                font-size: 22px;
+            }
+
+            .nav-link {
+                font-size: 12px;
+            }
+
+            .page-title {
+                font-size: clamp(44px, 12vw, 68px);
             }
 
             .glass-button {
-                min-height: 68px;
+                min-height: 70px;
                 border-radius: 20px;
             }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .glass-button,
-            .nav a {
+            .brand,
+            .nav-link,
+            .glass-button {
                 transition: none;
             }
         }
@@ -383,41 +436,61 @@
 
 <body>
 
-    <!-- 共通ヘッダー -->
+    <!-- =========================
+         Navigation
+    ========================= -->
+
     <header class="topbar">
-        <div class="topbar-inner">
+
+        <nav
+            class="nav-inner"
+            aria-label="メインナビゲーション"
+        >
 
             <a class="brand" href="/">
                 stone block
             </a>
 
-            <nav class="nav" aria-label="メインナビゲーション">
+            <a class="nav-link" href="/about/">
+                About
+            </a>
 
-                <a href="/about/">
-                    About
-                </a>
+            <a class="nav-link" href="/links/">
+                リンク
+            </a>
 
-                <a
-                    href="/links/"
-                    aria-current="page"
-                >
-                    リンク
-                </a>
+        </nav>
 
-            </nav>
-
-        </div>
     </header>
+
+
+    <!-- =========================
+         Main
+    ========================= -->
 
     <main class="container">
 
-        <a class="back" href="/">← ホームに戻る</a>
+        <section class="page">
 
-        <p class="site-name">stone block</p>
+            <h1 class="page-title">
+                リンク
+            </h1>
 
-        <h1>リンク</h1>
+            <div class="page-description">
+                Modrinth・CurseForge・ゲーム・ツールなど
+            </div>
 
-        <nav class="links" aria-label="リンク">
+            <div class="keep-banner">
+                <script src="https://keepandroidopen.org/banner.js?id=keepandroid-banner&amp;size=mini"></script>
+            </div>
+
+        </section>
+
+
+        <section
+            class="links"
+            aria-label="リンク"
+        >
 
             <a
                 class="glass-button"
@@ -426,16 +499,22 @@
                 rel="noopener noreferrer"
             >
                 <span class="button-text">
-                    <span class="button-title">Modrinth</span>
+
+                    <span class="button-title">
+                        Modrinth
+                    </span>
+
                     <span class="button-subtitle">
                         Minecraftの制作物
                     </span>
+
                 </span>
 
                 <span class="arrow" aria-hidden="true">
                     →
                 </span>
             </a>
+
 
             <a
                 class="glass-button"
@@ -444,44 +523,59 @@
                 rel="noopener noreferrer"
             >
                 <span class="button-text">
-                    <span class="button-title">CurseForge</span>
+
+                    <span class="button-title">
+                        CurseForge
+                    </span>
+
                     <span class="button-subtitle">
                         Minecraftの制作物
                     </span>
+
                 </span>
 
                 <span class="arrow" aria-hidden="true">
                     →
                 </span>
             </a>
+
 
             <a
                 class="glass-button"
                 href="/color/"
             >
                 <span class="button-text">
-                    <span class="button-title">色違い探し</span>
+
+                    <span class="button-title">
+                        色違い探し
+                    </span>
+
                     <span class="button-subtitle">
                         色の違いを見つけるゲーム
                     </span>
+
                 </span>
 
                 <span class="arrow" aria-hidden="true">
                     →
                 </span>
             </a>
+
 
             <a
                 class="glass-button"
                 href="/bottleneck-checker/"
             >
                 <span class="button-text">
+
                     <span class="button-title">
                         CPU / GPU ボトルネックチェッカー
                     </span>
+
                     <span class="button-subtitle">
                         CPUとGPUのバランスをチェック
                     </span>
+
                 </span>
 
                 <span class="arrow" aria-hidden="true">
@@ -489,7 +583,8 @@
                 </span>
             </a>
 
-        </nav>
+        </section>
+
 
         <footer>
             © stone block 2026
