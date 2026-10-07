@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>stone block</title>
+    <title>リンク - stone block</title>
 
     <style>
         * {
@@ -178,11 +178,11 @@
             padding: 100px 0 60px;
         }
 
-        .hero {
+        .page {
             text-align: center;
         }
 
-        .hero-title {
+        .page-title {
             margin: 0;
 
             font-size: clamp(56px, 11vw, 100px);
@@ -195,7 +195,7 @@
             color: #000000;
         }
 
-        .hero-description {
+        .page-description {
             margin: 24px auto 0;
 
             max-width: 600px;
@@ -216,10 +216,10 @@
         }
 
         /* =========================
-           Home links
+           Links
         ========================= */
 
-        .home-links {
+        .links {
             display: grid;
             gap: 14px;
 
@@ -316,6 +316,8 @@
         .button-text {
             position: relative;
             z-index: 1;
+
+            text-align: left;
         }
 
         .button-title {
@@ -393,7 +395,7 @@
                 padding-top: 78px;
             }
 
-            .hero-title {
+            .page-title {
                 font-size: clamp(52px, 13vw, 80px);
             }
         }
@@ -412,7 +414,7 @@
                 font-size: 12px;
             }
 
-            .hero-title {
+            .page-title {
                 font-size: clamp(44px, 12vw, 68px);
             }
 
@@ -468,15 +470,15 @@
 
     <main class="container">
 
-        <section class="hero">
+        <section class="page">
 
-            <h1 class="hero-title">
-                Hello, World!
+            <h1 class="page-title">
+                リンク
             </h1>
 
-            <p class="hero-description">
-                いろいろ作ったものとかのせてるとこなど
-            </p>
+            <div class="page-description">
+                Modrinth・CurseForge・ゲーム・ツールなど
+            </div>
 
             <div class="keep-banner">
                 <script src="https://keepandroidopen.org/banner.js?id=keepandroid-banner&amp;size=mini"></script>
@@ -486,22 +488,24 @@
 
 
         <section
-            class="home-links"
+            class="links"
             aria-label="リンク"
         >
 
             <a
                 class="glass-button"
-                href="/links/"
+                href="https://modrinth.com/user/stoneblock9965"
+                target="_blank"
+                rel="noopener noreferrer"
             >
                 <span class="button-text">
 
                     <span class="button-title">
-                        リンク
+                        Modrinth
                     </span>
 
                     <span class="button-subtitle">
-                        Modrinth・CurseForge・SNSなど
+                        Minecraftの制作物
                     </span>
 
                 </span>
@@ -514,18 +518,62 @@
 
             <a
                 class="glass-button"
-                href="https://x.com/stone_block9965"
+                href="https://www.curseforge.com/members/stone_block9965/projects"
                 target="_blank"
                 rel="noopener noreferrer"
             >
                 <span class="button-text">
 
                     <span class="button-title">
-                        X垢
+                        CurseForge
                     </span>
 
                     <span class="button-subtitle">
-                        @stone_block9965
+                        Minecraftの制作物
+                    </span>
+
+                </span>
+
+                <span class="arrow" aria-hidden="true">
+                    →
+                </span>
+            </a>
+
+
+            <a
+                class="glass-button"
+                href="/color/"
+            >
+                <span class="button-text">
+
+                    <span class="button-title">
+                        色違い探し
+                    </span>
+
+                    <span class="button-subtitle">
+                        色の違いを見つけるゲーム
+                    </span>
+
+                </span>
+
+                <span class="arrow" aria-hidden="true">
+                    →
+                </span>
+            </a>
+
+
+            <a
+                class="glass-button"
+                href="/bottleneck-checker/"
+            >
+                <span class="button-text">
+
+                    <span class="button-title">
+                        CPU / GPU ボトルネックチェッカー
+                    </span>
+
+                    <span class="button-subtitle">
+                        CPUとGPUのバランスをチェック
                     </span>
 
                 </span>
