@@ -89,6 +89,77 @@
             background: rgba(150, 110, 255, 0.13);
         }
 
+        /* =========================
+           共通ヘッダー
+           ========================= */
+
+        .topbar {
+            width: 100%;
+
+            background: rgba(255, 255, 255, 0.92);
+            border-bottom: 1px solid rgba(30, 40, 55, 0.06);
+
+            box-shadow:
+                0 4px 18px rgba(55, 75, 105, 0.06);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .topbar-inner {
+            width: min(1180px, calc(100% - 40px));
+            min-height: 72px;
+
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 30px;
+        }
+
+        .brand {
+            color: var(--text);
+            text-decoration: none;
+
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+
+            white-space: nowrap;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav a {
+            color: var(--text);
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition:
+                opacity 160ms ease,
+                color 160ms ease;
+        }
+
+        .nav a:hover {
+            opacity: 0.58;
+        }
+
+        .nav a[aria-current="page"] {
+            color: #4f6fff;
+        }
+
+        /* =========================
+           本文
+           ========================= */
+
         .container {
             width: min(760px, calc(100% - 40px));
             margin: 0 auto;
@@ -120,22 +191,12 @@
         }
 
         h1 {
-            margin: 0 0 22px;
+            margin: 0 0 34px;
 
             font-size: clamp(34px, 6vw, 52px);
             line-height: 1.08;
             letter-spacing: -0.04em;
             font-weight: 800;
-        }
-
-        .keepandroid-banner {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            margin: 0 0 34px;
-
-            min-height: 30px;
         }
 
         .links {
@@ -283,6 +344,23 @@
         }
 
         @media (max-width: 600px) {
+            .topbar-inner {
+                width: min(100% - 28px, 1180px);
+                min-height: 64px;
+            }
+
+            .brand {
+                font-size: 19px;
+            }
+
+            .nav {
+                gap: 17px;
+            }
+
+            .nav a {
+                font-size: 13px;
+            }
+
             .container {
                 width: min(100% - 28px, 760px);
                 padding-top: 50px;
@@ -295,7 +373,8 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .glass-button {
+            .glass-button,
+            .nav a {
                 transition: none;
             }
         }
@@ -304,6 +383,32 @@
 
 <body>
 
+    <!-- 共通ヘッダー -->
+    <header class="topbar">
+        <div class="topbar-inner">
+
+            <a class="brand" href="/">
+                stone block
+            </a>
+
+            <nav class="nav" aria-label="メインナビゲーション">
+
+                <a href="/about/">
+                    About
+                </a>
+
+                <a
+                    href="/links/"
+                    aria-current="page"
+                >
+                    リンク
+                </a>
+
+            </nav>
+
+        </div>
+    </header>
+
     <main class="container">
 
         <a class="back" href="/">← ホームに戻る</a>
@@ -311,10 +416,6 @@
         <p class="site-name">stone block</p>
 
         <h1>リンク</h1>
-
-        <div class="keepandroid-banner">
-            <script src="https://keepandroidopen.org/banner.js?id=keepandroid-banner&amp;size=mini"></script>
-        </div>
 
         <nav class="links" aria-label="リンク">
 
