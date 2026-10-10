@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Minecraft アイテム図鑑 | stone block</title>
+    <meta name="description" content="Minecraft Java Editionのアイテムを検索できる図鑑。テクスチャやアイテムIDを確認できます。">
+    <meta name="theme-color" content="#edf6ff">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --text: #111111;
+            --subtext: #5e6a78;
+            --nav-border: rgba(0, 0, 0, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.65);
+            --shadow: rgba(55, 75, 105, 0.15);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100dvh;
+
+            font-family:
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Noto Sans JP",
+                "Yu Gothic",
+                sans-serif;
+
+            color: var(--text);
+
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(110, 160, 255, 0.45),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(190, 150, 255, 0.35),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 50% 90%,
+                    rgba(70, 210, 220, 0.25),
+                    transparent 38%
+                ),
+                linear-gradient(
+                    135deg,
+                    #edf6ff 0%,
+                    #f5efff 50%,
+                    #ecfbff 100%
+                );
+
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(12px);
+            z-index: -1;
+        }
+
+        body::before {
+            width: 35vw;
+            height: 35vw;
+            left: -10vw;
+            top: 48vh;
+            background: rgba(90, 150, 255, 0.14);
+        }
+
+        body::after {
+            width: 30vw;
+            height: 30vw;
+            right: -10vw;
+            top: 55vh;
+            background: rgba(150, 110, 255, 0.13);
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            color: inherit;
+        }
+
+        /* ナビゲーション */
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+
+            background: #ffffff;
+            border-bottom: 1px solid var(--nav-border);
+
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-inner {
+            width: min(1180px, calc(100% - 40px));
+            min-height: 68px;
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            gap: 34px;
+            padding-left: 7%;
+        }
+
+        .brand {
+            color: #000000;
+            text-decoration: none;
+
+            font-size: clamp(26px, 3vw, 36px);
+            font-weight: 800;
+            letter-spacing: -0.055em;
+            line-height: 1;
+            white-space: nowrap;
+
+            transition: opacity 160ms ease;
+        }
+
+        .brand:hover,
+        .nav-link:hover {
+            opacity: 0.62;
+        }
+
+        .nav-link {
+            color: #333333;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: opacity 160ms ease;
+        }
+
+        /* メイン */
+
+        .container {
+            width: min(1000px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 75px 0 50px;
+        }
+
+        .hero {
+            text-align: center;
+        }
+
+        .hero-title {
+            margin: 0;
+            font-size: clamp(42px, 8vw, 76px);
+            line-height: 1.08;
+            letter-spacing: -0.065em;
+            font-weight: 850;
+            color: #000000;
+        }
+
+        .hero-description {
+            max-width: 620px;
+            margin: 20px auto 0;
+            color: var(--subtext);
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        .version-label {
+            display: inline-block;
+            margin-top: 19px;
+            padding: 7px 12px;
+
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 100px;
+
+            background: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 4px 15px rgba(55, 75, 105, 0.08);
+
+            color: #506174;
+            font-size: 12px;
+        }
+
+        /* 検索 */
+
+        .search-area {
+            margin-top: 40px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            min-height: 58px;
+            padding: 7px 9px 7px 18px;
+
+            border: 1px solid var(--glass-border);
+            border-radius: 19px;
+
+            background: rgba(255, 255, 255, 0.48);
+
+            box-shadow:
+                0 10px 28px var(--shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+        }
+
+        .search-box input {
+            width: 100%;
+            min-width: 0;
+            padding: 9px 0;
+
+            border: none;
+            outline: none;
+            background: transparent;
+
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .search-box input::placeholder {
+            color: #778393;
+        }
+
+        .search-count {
+            flex-shrink: 0;
+            padding: 9px 12px;
+
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            border-radius: 12px;
+
+            background: rgba(255, 255, 255, 0.45);
+            color: var(--subtext);
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        /* カテゴリ */
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 9px;
+
+            margin: 20px 0 30px;
+        }
+
+        .category {
+            padding: 9px 15px;
+
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            border-radius: 100px;
+
+            background: rgba(255, 255, 255, 0.33);
+            color: #475365;
+
+            font-size: 12px;
+            cursor: pointer;
+
+            box-shadow: 0 4px 12px rgba(55, 75, 105, 0.05);
+
+            transition:
+                background 160ms ease,
+                transform 160ms ease;
+        }
+
+        .category:hover {
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .category.active {
+            background: rgba(255, 255, 255, 0.85);
+            color: #111111;
+            border-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 5px 15px rgba(55, 75, 105, 0.12);
+            font-weight: 750;
+        }
+
+        /* 一覧と詳細 */
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+
+            margin: 0 0 14px;
+            font-size: 16px;
+            font-weight: 750;
+        }
+
+        .section-title small {
+            color: var(--subtext);
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 280px;
+            align-items: start;
+            gap: 18px;
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .item-card {
+            position: relative;
+            min-width: 0;
+            padding: 13px 7px 12px;
+
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.58),
+                    rgba(255, 255, 255, 0.25)
+                );
+
+            box-shadow:
+                0 8px 22px rgba(55, 75, 105, 0.09),
+                inset 0 1px 0 rgba(255, 255, 255, 0.75);
+
+            backdrop-filter: blur(14px) saturate(150%);
+            -webkit-backdrop-filter: blur(14px) saturate(150%);
+
+            cursor: pointer;
+            text-align: center;
+
+            transition:
+                transform 160ms ease,
+                background 160ms ease,
+                box-shadow 160ms ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.67);
+            box-shadow: 0 14px 30px rgba(55, 75, 105, 0.15);
+        }
+
+        .item-card.selected {
+            border-color: rgba(91, 137, 230, 0.65);
+            background: rgba(255, 255, 255, 0.76);
+            box-shadow:
+                0 0 0 2px rgba(91, 137, 230, 0.12),
+                0 10px 25px rgba(55, 75, 105, 0.12);
+        }
+
+        .item-image {
+            display: block;
+            width: 48px;
+            height: 48px;
+            margin: 1px auto 12px;
+
+            object-fit: contain;
+            image-rendering: pixelated;
+        }
+
+        .item-name {
+            display: block;
+            overflow-wrap: anywhere;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .item-id {
+            display: block;
+            overflow-wrap: anywhere;
+            margin-top: 5px;
+            color: var(--subtext);
+            font-size: 9px;
+            line-height: 1.5;
+        }
+
+        .empty {
+            display: none;
+            padding: 40px 15px;
+
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+
+            background: rgba(255, 255, 255, 0.35);
+            color: var(--subtext);
+            text-align: center;
+            font-size: 13px;
+        }
+
+        /* 詳細 */
+
+        .detail {
+            position: sticky;
+            top: 86px;
+            overflow: hidden;
+
+            border: 1px solid var(--glass-border);
+            border-radius: 22px;
+
+            background: rgba(255, 255, 255, 0.36);
+
+            box-shadow:
+                0 12px 30px var(--shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.75);
+
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+        }
+
+        .detail-preview {
+            display: grid;
+            place-items: center;
+            min-height: 185px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255, 255, 255, 0.8),
+                    rgba(255, 255, 255, 0.17) 70%
+                );
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        .detail-preview img {
+            width: 88px;
+            height: 88px;
+            object-fit: contain;
+            image-rendering: pixelated;
+        }
+
+        .detail-body {
+            padding: 20px;
+        }
+
+        .detail-category {
+            color: #63748d;
+            font-size: 11px;
+        }
+
+        .detail-name {
+            margin: 8px 0 0;
+            font-size: 21px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .detail-label {
+            margin: 22px 0 8px;
+            color: var(--subtext);
+            font-size: 11px;
+        }
+
+        .id-box {
+            padding: 11px 12px;
+
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            border-radius: 11px;
+
+            background: rgba(255, 255, 255, 0.45);
+
+            color: #273343;
+            font: 11px/1.7 ui-monospace, monospace;
+            overflow-wrap: anywhere;
+            user-select: text;
+        }
+
+        .detail-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 9px;
+            margin-top: 12px;
+        }
+
+        .action {
+            display: grid;
+            place-items: center;
+            min-height: 40px;
+            padding: 8px;
+
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            border-radius: 12px;
+
+            background: rgba(255, 255, 255, 0.48);
+            color: #263241;
+
+            font-size: 11px;
+            text-decoration: none;
+            cursor: pointer;
+
+            transition: background 160ms ease;
+        }
+
+        .action:hover {
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .action:disabled {
+            opacity: 0.45;
+            cursor: default;
+        }
+
+        .message {
+            min-height: 18px;
+            margin-top: 10px;
+            color: #4a6c54;
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        /* フッター */
+
+        footer {
+            margin-top: 50px;
+            padding-top: 22px;
+
+            border-top: 1px solid rgba(0, 0, 0, 0.07);
+
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+
+            color: rgba(65, 77, 93, 0.65);
+            font-size: 12px;
+        }
+
+        footer a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #111111;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible {
+            outline: 3px solid rgba(78, 120, 255, 0.35);
+            outline-offset: 3px;
+        }
+
+        /* モバイル */
+
+        @media (max-width: 850px) {
+            .content {
+                grid-template-columns: minmax(0, 1fr) 240px;
+                gap: 12px;
+            }
+
+            .item-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 9px;
+            }
+
+            .detail-body {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .nav-inner {
+                width: min(100% - 28px, 1180px);
+                min-height: 62px;
+                gap: 22px;
+                padding-left: 2%;
+            }
+
+            .brand {
+                font-size: 25px;
+            }
+
+            .nav-link {
+                font-size: 13px;
+            }
+
+            .container {
+                width: min(100% - 28px, 1000px);
+                padding-top: 62px;
+            }
+
+            .hero-title {
+                font-size: clamp(40px, 11vw, 64px);
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .detail {
+                position: static;
+                grid-row: 1;
+            }
+
+            .detail-preview {
+                min-height: 145px;
+            }
+
+            .detail-preview img {
+                width: 72px;
+                height: 72px;
+            }
+
+            .item-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+
+            .categories {
+                justify-content: flex-start;
+            }
+
+            footer {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .nav-inner {
+                gap: 16px;
+                padding-left: 0;
+            }
+
+            .brand {
+                font-size: 22px;
+            }
+
+            .nav-link {
+                font-size: 12px;
+            }
+
+            .item-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .item-card {
+                border-radius: 15px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topbar">
+    <nav class="nav-inner" aria-label="メインナビゲーション">
+        <a class="brand" href="/">stone block</a>
+        <a class="nav-link" href="/about/">About</a>
+        <a class="nav-link" href="/links/">リンク</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="hero">
+        <h1 class="hero-title">Minecraft Items</h1>
+
+        <p class="hero-description">
+            Minecraftのアイテムを検索できる図鑑。
+            テクスチャを見たり、アイテムIDを確認したりできます。
+        </p>
+
+        <span class="version-label">
+            Java Edition 26.2
+        </span>
+    </section>
+
+    <section class="search-area" aria-label="アイテム検索">
+        <div class="search-box">
+            <input
+                id="search"
+                type="search"
+                placeholder="アイテム名・英語名・IDで検索"
+                autocomplete="off"
+                aria-label="アイテムを検索"
+            >
+            <span class="search-count" id="count">0件</span>
+        </div>
+    </section>
+
+    <nav class="categories" id="categories" aria-label="カテゴリ"></nav>
+
+    <section class="content">
+
+        <div class="list-area">
+            <h2 class="section-title">
+                アイテム一覧
+                <small id="results">0件</small>
+            </h2>
+
+            <div class="item-grid" id="grid"></div>
+
+            <div class="empty" id="empty">
+                該当するアイテムが見つかりませんでした。
+            </div>
+        </div>
+
+        <aside class="detail" aria-label="アイテム詳細">
+            <div class="detail-preview">
+                <img id="detailImage" alt="" width="88" height="88">
+            </div>
+
+            <div class="detail-body">
+                <div class="detail-category" id="detailCategory"></div>
+                <h2 class="detail-name" id="detailName"></h2>
+
+                <div class="detail-label">アイテムID</div>
+                <div class="id-box" id="detailId"></div>
+
+                <div class="detail-actions">
+                    <button class="action" id="copy" type="button">
+                        IDをコピー
+                    </button>
+
+                    <a
+                        class="action"
+                        id="assetLink"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >画像を開く</a>
+                </div>
+
+                <div class="message" id="message" aria-live="polite"></div>
+            </div>
+        </aside>
+
+    </section>
+
+    <footer>
+        <span>© stone block 2026</span>
+        <a
+            href="https://mcasset.cloud/26.2/assets/minecraft"
+            target="_blank"
+            rel="noopener noreferrer"
+        >テクスチャ出典：MC Assets Explorer</a>
+    </footer>
+
+</main>
+
+<script>
+const VERSION = "26.2";
+
+const TEXTURE_ROOT =
+    `https://mcasset.cloud/${VERSION}/assets/minecraft/textures/item/`;
+
+const items = [
+    ["ダイヤモンドの剣", "diamond_sword", "装備"],
+    ["ネザライトの剣", "netherite_sword", "装備"],
+    ["ダイヤモンドのツルハシ", "diamond_pickaxe", "道具"],
+    ["ダイヤモンドの斧", "diamond_axe", "道具"],
+    ["ダイヤモンドのシャベル", "diamond_shovel", "道具"],
+    ["ダイヤモンドのクワ", "diamond_hoe", "道具"],
+    ["ネザライトのツルハシ", "netherite_pickaxe", "道具"],
+    ["はさみ", "shears", "道具"],
+    ["ブラシ", "brush", "道具"],
+    ["釣竿", "fishing_rod", "道具"],
+    ["火打石と打ち金", "flint_and_steel", "道具"],
+    ["望遠鏡", "spyglass", "道具"],
+
+    ["弓", "bow", "装備"],
+    ["クロスボウ", "crossbow", "装備"],
+    ["トライデント", "trident", "装備"],
+    ["メイス", "mace", "装備"],
+    ["盾", "shield", "装備"],
+    ["エリトラ", "elytra", "装備"],
+    ["不死のトーテム", "totem_of_undying", "装備"],
+    ["ダイヤモンドのヘルメット", "diamond_helmet", "装備"],
+    ["ダイヤモンドのチェストプレート", "diamond_chestplate", "装備"],
+    ["ネザライトのチェストプレート", "netherite_chestplate", "装備"],
+
+    ["ダイヤモンド", "diamond", "素材"],
+    ["エメラルド", "emerald", "素材"],
+    ["鉄インゴット", "iron_ingot", "素材"],
+    ["金インゴット", "gold_ingot", "素材"],
+    ["銅インゴット", "copper_ingot", "素材"],
+    ["ネザライトインゴット", "netherite_ingot", "素材"],
+    ["アメジストの欠片", "amethyst_shard", "素材"],
+    ["ラピスラズリ", "lapis_lazuli", "素材"],
+    ["レッドストーンダスト", "redstone", "素材"],
+    ["クォーツ", "quartz", "素材"],
+    ["石炭", "coal", "素材"],
+    ["棒", "stick", "素材"],
+    ["火打石", "flint", "素材"],
+    ["ブレイズロッド", "blaze_rod", "素材"],
+    ["ネザースター", "nether_star", "素材"],
+
+    ["リンゴ", "apple", "食料"],
+    ["金のリンゴ", "golden_apple", "食料"],
+    ["エンチャントされた金のリンゴ", "enchanted_golden_apple", "食料"],
+    ["パン", "bread", "食料"],
+    ["ステーキ", "cooked_beef", "食料"],
+    ["ニンジン", "carrot", "食料"],
+    ["ベイクドポテト", "baked_potato", "食料"],
+    ["クッキー", "cookie", "食料"],
+    ["スイカの薄切り", "melon_slice", "食料"],
+
+    ["エンダーパール", "ender_pearl", "その他"],
+    ["エンダーアイ", "ender_eye", "その他"],
+    ["経験値瓶", "experience_bottle", "その他"],
+    ["水入りバケツ", "water_bucket", "その他"],
+    ["溶岩入りバケツ", "lava_bucket", "その他"],
+    ["バケツ", "bucket", "その他"],
+    ["花火のロケット", "firework_rocket", "その他"],
+    ["名札", "name_tag", "その他"],
+    ["リード", "lead", "その他"],
+    ["サドル", "saddle", "その他"],
+    ["オークのボート", "oak_boat", "その他"],
+    ["束縛の束", "bundle", "その他"],
+    ["音楽ディスク 13", "music_disc_13", "その他"],
+    ["音楽ディスク Otherside", "music_disc_otherside", "その他"],
+    ["音楽ディスク Bounce", "music_disc_bounce", "その他"],
+    ["硫黄キューブ入りバケツ", "sulfur_cube_bucket", "その他"],
+    ["硫黄のとげ", "sulfur_spike", "その他"]
+].map(([name, id, category]) => ({
+    name,
+    id,
+    category,
+    texture: `${TEXTURE_ROOT}${id}.png`
+}));
+
+const categoryNames = [
+    "すべて",
+    "道具",
+    "装備",
+    "素材",
+    "食料",
+    "その他"
+];
+
+let activeCategory = "すべて";
+let selectedId = items[0].id;
+let visibleItems = [...items];
+
+const $ = id => document.getElementById(id);
+
+function makeCategories() {
+    const root = $("categories");
+    root.replaceChildren();
+
+    for (const name of categoryNames) {
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className =
+            "category" + (name === activeCategory ? " active" : "");
+
+        button.textContent = name;
+        button.setAttribute(
+            "aria-pressed",
+            String(name === activeCategory)
+        );
+
+        button.addEventListener("click", () => {
+            activeCategory = name;
+            makeCategories();
+            render();
+        });
+
+        root.append(button);
+    }
+}
+
+function matches(item, query) {
+    const text = [
+        item.name,
+        item.id,
+        `minecraft:${item.id}`,
+        item.category
+    ].join(" ").toLocaleLowerCase("ja");
+
+    const categoryMatches =
+        activeCategory === "すべて" ||
+        item.category === activeCategory;
+
+    return categoryMatches &&
+        text.includes(query.trim().toLocaleLowerCase("ja"));
+}
+
+function makeImage(src, alt, className) {
+    const image = document.createElement("img");
+
+    image.className = className;
+    image.src = src;
+    image.alt = alt;
+    image.loading = "lazy";
+    image.decoding = "async";
+
+    image.addEventListener("error", () => {
+        image.style.visibility = "hidden";
+    }, { once: true });
+
+    return image;
+}
+
+function render() {
+    visibleItems = items.filter(item =>
+        matches(item, $("search").value)
+    );
+
+    $("count").textContent = `${visibleItems.length}件`;
+    $("results").textContent = `${visibleItems.length}件`;
+
+    $("empty").style.display =
+        visibleItems.length ? "none" : "block";
+
+    $("grid").replaceChildren();
+
+    for (const item of visibleItems) {
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className =
+            "item-card" +
+            (item.id === selectedId ? " selected" : "");
+
+        button.setAttribute(
+            "aria-pressed",
+            String(item.id === selectedId)
+        );
+
+        button.append(
+            makeImage(item.texture, item.name, "item-image")
+        );
+
+        const name = document.createElement("span");
+        name.className = "item-name";
+        name.textContent = item.name;
+
+        const id = document.createElement("span");
+        id.className = "item-id";
+        id.textContent = item.id;
+
+        button.append(name, id);
+
+        button.addEventListener("click", () => {
+            selectItem(item.id);
+        });
+
+        $("grid").append(button);
+    }
+
+    const current = visibleItems.find(item =>
+        item.id === selectedId
+    );
+
+    if (current) {
+        updateDetail(current);
+    } else if (visibleItems.length) {
+        selectedId = visibleItems[0].id;
+        updateDetail(visibleItems[0]);
+        renderSelection();
+    } else {
+        clearDetail();
+    }
+}
+
+function renderSelection() {
+    document.querySelectorAll(".item-card").forEach(button => {
+        const selected = button.querySelector(".item-id")
+            ?.textContent === selectedId;
+
+        button.classList.toggle("selected", selected);
+        button.setAttribute("aria-pressed", String(selected));
+    });
+}
+
+function selectItem(id) {
+    selectedId = id;
+    $("message").textContent = "";
+
+    const item = items.find(entry => entry.id === id);
+    if (item) updateDetail(item);
+
+    renderSelection();
+}
+
+function updateDetail(item) {
+    const image = $("detailImage");
+
+    image.style.visibility = "visible";
+    image.src = item.texture;
+    image.alt = item.name;
+
+    image.onerror = () => {
+        image.style.visibility = "hidden";
+    };
+
+    $("detailCategory").textContent = item.category;
+    $("detailName").textContent = item.name;
+    $("detailId").textContent = `minecraft:${item.id}`;
+    $("assetLink").href = item.texture;
+    $("assetLink").style.pointerEvents = "auto";
+    $("copy").disabled = false;
+}
+
+function clearDetail() {
+    $("detailImage").removeAttribute("src");
+    $("detailImage").style.visibility = "hidden";
+    $("detailCategory").textContent = "";
+    $("detailName").textContent = "アイテムが見つかりません";
+    $("detailId").textContent = "";
+    $("assetLink").removeAttribute("href");
+    $("assetLink").style.pointerEvents = "none";
+    $("copy").disabled = true;
+    $("message").textContent = "";
+}
+
+$("search").addEventListener("input", render);
+
+$("copy").addEventListener("click", async () => {
+    if (!selectedId) return;
+
+    const value = `minecraft:${selectedId}`;
+
+    try {
+        await navigator.clipboard.writeText(value);
+        $("message").textContent = "IDをコピーしました。";
+    } catch {
+        $("message").textContent =
+            "コピーできない場合は、上のIDを選択してコピーしてください。";
+    }
+});
+
+makeCategories();
+render();
+</script>
+
+</body>
+</html>
