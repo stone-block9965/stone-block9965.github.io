@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CPS Test | stone block</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      font-family: system-ui, sans-serif;
+      color: #292b38;
+      background:
+        radial-gradient(ellipse at 10% 10%, #dceaff 0, transparent 45%),
+        radial-gradient(ellipse at 90% 90%, #e8ddff 0, transparent 45%),
+        #f8f9ff;
+    }
+
+    main {
+      width: min(100%, 440px);
+      text-align: center;
+      padding: 28px;
+      border: 1px solid #ffffffb8;
+      border-radius: 24px;
+      background: #ffffffa8;
+      box-shadow: 0 12px 40px #373c6412;
+      backdrop-filter: blur(16px);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      letter-spacing: -1px;
+    }
+
+    .sub {
+      color: #777b8d;
+      margin: 8px 0 28px;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 24px;
+    }
+
+    .value {
+      font-size: 2rem;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .label {
+      font-size: .8rem;
+      color: #777b8d;
+    }
+
+    #target {
+      width: 100%;
+      min-height: 180px;
+      border: 0;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #7c83ff, #9d78eb);
+      color: white;
+      font: inherit;
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      touch-action: manipulation;
+      transition: transform .08s, filter .15s;
+    }
+
+    #target:active {
+      transform: scale(.98);
+      filter: brightness(.92);
+    }
+
+    #target:disabled {
+      cursor: default;
+      background: #9699ab;
+    }
+
+    #message {
+      min-height: 24px;
+      margin: 18px 0;
+      color: #686d81;
+      font-size: .95rem;
+    }
+
+    #reset {
+      border: 1px solid #dcddec;
+      border-radius: 12px;
+      padding: 10px 20px;
+      color: #44475b;
+      background: #fff;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    footer {
+      margin-top: 24px;
+      color: #989bad;
+      font-size: .8rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>CPS Test()</h1>
+    <p class="sub">5秒間、ひたすらクリック！</p>
+
+    <div class="stats">
+      <div>
+        <div class="value" id="count">0</div>
+        <div class="label">クリック数</div>
+      </div>
+      <div>
+        <div class="value" id="time">5.0</div>
+        <div class="label">残り時間</div>
+      </div>
+      <div>
+        <div class="value" id="cps">0.0</div>
+        <div class="label">CPS</div>
+      </div>
+    </div>
+
+    <button id="target">クリックしてスタート！</button>
+    <p id="message">最初のクリックから計測開始</p>
+    <button id="reset">もう一度</button>
+
+    <footer>stone block · CPS Test</footer>
+  </main>
+
+  <script>
+    const target = document.querySelector("#target");
+    const countText = document.querySelector("#count");
+    const timeText = document.querySelector("#time");
+    const cpsText = document.querySelector("#cps");
+    const message = document.querySelector("#message");
+    const reset = document.querySelector("#reset");
+
+    const duration = 5000;
+    let clicks = 0;
+    let started = false;
+    let finished = false;
+    let startTime = 0;
+    let timerId = null;
+
+    function updateTimer() {
+      const remaining = Math.max(
+        0,
+        duration - (performance.now() - startTime)
+      );
+
+      timeText.textContent = (remaining / 1000).toFixed(1);
+
+      if (remaining <= 0) {
+        finish();
+      }
+    }
+
+    function finish() {
+      if (finished) return;
+
+      finished = true;
+      clearInterval(timerId);
+
+      timeText.textContent = "0.0";
+      cpsText.textContent = (clicks / (duration / 1000)).toFixed(1);
+      target.disabled = true;
+      target.textContent = "計測終了！";
+      message.textContent = `${clicks} 回クリック！お疲れさま！`;
+    }
+
+    target.addEventListener("click", () => {
+      if (finished) return;
+
+      if (!started) {
+        started = true;
+        startTime = performance.now();
+        timerId = setInterval(updateTimer, 30);
+        target.textContent = "連打！！";
+        message.textContent = "クリック！クリック！";
+      }
+
+      if (performance.now() - startTime >= duration) {
+        finish();
+        return;
+      }
+
+      clicks++;
+      countText.textContent = clicks;
+      cpsText.textContent =
+        (clicks / Math.max(0.001, (performance.now() - startTime) / 1000))
+          .toFixed(1);
+    });
+
+    reset.addEventListener("click", () => {
+      clearInterval(timerId);
+
+      clicks = 0;
+      started = false;
+      finished = false;
+      startTime = 0;
+
+      countText.textContent = "0";
+      timeText.textContent = "5.0";
+      cpsText.textContent = "0.0";
+      target.disabled = false;
+      target.textContent = "クリックしてスタート！";
+      message.textContent = "最初のクリックから計測開始";
+    });
+  </script>
+</body>
+</html>
