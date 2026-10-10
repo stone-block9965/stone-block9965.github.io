@@ -3,138 +3,484 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CPS Test | stone block</title>
-  <style>
-    * { box-sizing: border-box; }
+  <meta name="theme-color" content="#ffffff">
+  <title>CPS Test() | stone block</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --text: #111111;
+      --subtext: #5e6a78;
+      --nav-border: rgba(0, 0, 0, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.65);
+      --shadow: rgba(55, 75, 105, 0.18);
+    }
+
+    html,
     body {
       margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-      font-family: system-ui, sans-serif;
-      color: #292b38;
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100dvh;
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Sans JP",
+        "Yu Gothic",
+        sans-serif;
+      color: var(--text);
+
       background:
-        radial-gradient(ellipse at 10% 10%, #dceaff 0, transparent 45%),
-        radial-gradient(ellipse at 90% 90%, #e8ddff 0, transparent 45%),
-        #f8f9ff;
+        radial-gradient(
+          circle at 15% 20%,
+          rgba(110, 160, 255, 0.45),
+          transparent 32%
+        ),
+        radial-gradient(
+          circle at 85% 20%,
+          rgba(190, 150, 255, 0.35),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 50% 90%,
+          rgba(70, 210, 220, 0.25),
+          transparent 38%
+        ),
+        linear-gradient(
+          135deg,
+          #edf6ff 0%,
+          #f5efff 50%,
+          #ecfbff 100%
+        );
+
+      overflow-x: hidden;
     }
 
-    main {
-      width: min(100%, 440px);
-      text-align: center;
-      padding: 28px;
-      border: 1px solid #ffffffb8;
-      border-radius: 24px;
-      background: #ffffffa8;
-      box-shadow: 0 12px 40px #373c6412;
-      backdrop-filter: blur(16px);
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(12px);
+      z-index: -1;
     }
 
-    h1 {
-      margin: 0;
-      font-size: 2rem;
-      letter-spacing: -1px;
+    body::before {
+      width: 35vw;
+      height: 35vw;
+      left: -10vw;
+      top: 48vh;
+      background: rgba(90, 150, 255, 0.14);
     }
 
-    .sub {
-      color: #777b8d;
-      margin: 8px 0 28px;
+    body::after {
+      width: 30vw;
+      height: 30vw;
+      right: -10vw;
+      top: 55vh;
+      background: rgba(150, 110, 255, 0.13);
     }
 
-    .stats {
+    /* Navigation */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      background: #ffffff;
+      border-bottom: 1px solid var(--nav-border);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-inner {
+      width: min(1180px, calc(100% - 40px));
+      min-height: 68px;
+      margin: 0 auto;
       display: flex;
-      justify-content: space-around;
+      align-items: center;
+      gap: 34px;
+      padding-left: 7%;
+    }
+
+    .brand {
+      color: #000000;
+      text-decoration: none;
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.055em;
+      line-height: 1;
+      white-space: nowrap;
+      transition: opacity 160ms ease;
+    }
+
+    .brand:hover {
+      opacity: 0.62;
+    }
+
+    .nav-link {
+      color: #333333;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: color 160ms ease, opacity 160ms ease;
+    }
+
+    .nav-link:hover {
+      color: #000000;
+      opacity: 0.62;
+    }
+
+    .brand:focus-visible,
+    .nav-link:focus-visible {
+      outline: 3px solid rgba(78, 120, 255, 0.35);
+      outline-offset: 5px;
+    }
+
+    /* Main */
+
+    .container {
+      width: min(760px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 76px 0 60px;
+    }
+
+    .hero {
+      text-align: center;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(48px, 9vw, 76px);
+      line-height: 1.05;
+      letter-spacing: -0.065em;
+      font-weight: 850;
+      color: #000000;
+    }
+
+    .hero-description {
+      margin: 18px auto 0;
+      max-width: 600px;
+      color: var(--subtext);
+      font-size: clamp(14px, 2.5vw, 17px);
+      line-height: 1.8;
+    }
+
+    /* CPS Test */
+
+    .test-card {
+      width: min(100%, 480px);
+      margin: 42px auto 0;
+      padding: 28px 24px;
+
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.44),
+        rgba(255, 255, 255, 0.20)
+      );
+
+      box-shadow:
+        0 12px 30px var(--shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.18);
+
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+    }
+
+    .duration-label {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--subtext);
+      font-size: 13px;
+    }
+
+    .duration-options {
+      display: flex;
+      gap: 8px;
       margin-bottom: 24px;
     }
 
+    button {
+      font: inherit;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus-visible {
+      outline: 3px solid rgba(78, 120, 255, 0.35);
+      outline-offset: 3px;
+    }
+
+    .duration-button {
+      flex: 1;
+      padding: 11px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.45);
+      color: var(--text);
+      font-weight: 650;
+
+      transition:
+        transform 160ms ease,
+        background 160ms ease;
+    }
+
+    .duration-button[aria-pressed="true"] {
+      color: #ffffff;
+      background: linear-gradient(135deg, #7c83ff, #9d78eb);
+      border-color: transparent;
+    }
+
+    .duration-button:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    .duration-button:disabled {
+      opacity: 0.65;
+      cursor: default;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      min-width: 0;
+      padding: 12px 4px;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
     .value {
-      font-size: 2rem;
+      font-size: clamp(24px, 6vw, 30px);
       font-weight: 750;
       font-variant-numeric: tabular-nums;
     }
 
-    .label {
-      font-size: .8rem;
-      color: #777b8d;
+    .stat-label {
+      color: var(--subtext);
+      font-size: 12px;
     }
 
     #target {
       width: 100%;
-      min-height: 180px;
-      border: 0;
+      min-height: 170px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.55);
       border-radius: 18px;
+
       background: linear-gradient(135deg, #7c83ff, #9d78eb);
-      color: white;
-      font: inherit;
-      font-size: 1.25rem;
-      font-weight: 700;
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 750;
+
       cursor: pointer;
       user-select: none;
       touch-action: manipulation;
-      transition: transform .08s, filter .15s;
+
+      box-shadow: 0 8px 22px rgba(124, 131, 255, 0.2);
+
+      transition:
+        transform 80ms ease,
+        filter 150ms ease,
+        box-shadow 150ms ease;
     }
 
-    #target:active {
-      transform: scale(.98);
-      filter: brightness(.92);
+    #target:active:not(:disabled) {
+      transform: scale(0.985);
+      filter: brightness(0.94);
     }
 
     #target:disabled {
       cursor: default;
-      background: #9699ab;
+      background: #9296aa;
+      box-shadow: none;
     }
 
     #message {
       min-height: 24px;
-      margin: 18px 0;
-      color: #686d81;
-      font-size: .95rem;
+      margin: 16px 0;
+      color: var(--subtext);
+      font-size: 14px;
+      line-height: 1.6;
     }
 
     #reset {
-      border: 1px solid #dcddec;
-      border-radius: 12px;
       padding: 10px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 12px;
       color: #44475b;
-      background: #fff;
-      font: inherit;
-      cursor: pointer;
+      background: rgba(255, 255, 255, 0.55);
+      transition: background 160ms ease;
+    }
+
+    #reset:hover {
+      background: rgba(255, 255, 255, 0.85);
     }
 
     footer {
-      margin-top: 24px;
-      color: #989bad;
-      font-size: .8rem;
+      margin-top: 46px;
+      text-align: center;
+      font-size: 12px;
+      color: rgba(65, 77, 93, 0.65);
+    }
+
+    /* Mobile */
+
+    @media (max-width: 700px) {
+      .nav-inner {
+        width: min(calc(100% - 28px), 1180px);
+        min-height: 62px;
+        gap: 22px;
+        padding-left: 2%;
+      }
+
+      .brand {
+        font-size: 25px;
+      }
+
+      .nav-link {
+        font-size: 13px;
+      }
+
+      .container {
+        width: min(calc(100% - 28px), 760px);
+        padding-top: 64px;
+      }
+
+      .hero-title {
+        font-size: clamp(44px, 12vw, 68px);
+      }
+
+      .test-card {
+        margin-top: 32px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .nav-inner {
+        gap: 17px;
+        padding-left: 0;
+      }
+
+      .brand {
+        font-size: 22px;
+      }
+
+      .nav-link {
+        font-size: 12px;
+      }
+
+      .test-card {
+        padding: 22px 16px;
+        border-radius: 20px;
+      }
+
+      #target {
+        min-height: 150px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .brand,
+      .nav-link,
+      .duration-button,
+      #target,
+      #reset {
+        transition: none;
+      }
     }
   </style>
 </head>
+
 <body>
-  <main>
-    <h1>CPS Test()</h1>
-    <p class="sub">5秒間、ひたすらクリック！</p>
+  <header class="topbar">
+    <nav class="nav-inner" aria-label="メインナビゲーション">
+      <a class="brand" href="/">stone block</a>
+      <a class="nav-link" href="/about/">About</a>
+      <a class="nav-link" href="/links/">リンク</a>
+    </nav>
+  </header>
 
-    <div class="stats">
-      <div>
-        <div class="value" id="count">0</div>
-        <div class="label">クリック数</div>
-      </div>
-      <div>
-        <div class="value" id="time">5.0</div>
-        <div class="label">残り時間</div>
-      </div>
-      <div>
-        <div class="value" id="cps">0.0</div>
-        <div class="label">CPS</div>
-      </div>
-    </div>
+  <main class="container">
+    <section class="hero">
+      <h1 class="hero-title">CPS Test()</h1>
+      <p class="hero-description">
+        制限時間内に何回クリックできる？
+      </p>
+    </section>
 
-    <button id="target">クリックしてスタート！</button>
-    <p id="message">最初のクリックから計測開始</p>
-    <button id="reset">もう一度</button>
+    <section class="test-card" aria-label="CPSテスト">
+      <span class="duration-label">制限時間を選択</span>
 
-    <footer>stone block · CPS Test</footer>
+      <div class="duration-options" aria-label="制限時間">
+        <button
+          class="duration-button"
+          data-seconds="10"
+          aria-pressed="true"
+          type="button"
+        >10秒</button>
+
+        <button
+          class="duration-button"
+          data-seconds="15"
+          aria-pressed="false"
+          type="button"
+        >15秒</button>
+
+        <button
+          class="duration-button"
+          data-seconds="20"
+          aria-pressed="false"
+          type="button"
+        >20秒</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="value" id="count">0</div>
+          <div class="stat-label">クリック数</div>
+        </div>
+
+        <div class="stat">
+          <div class="value" id="time">10.0</div>
+          <div class="stat-label">残り時間</div>
+        </div>
+
+        <div class="stat">
+          <div class="value" id="cps">0.0</div>
+          <div class="stat-label">CPS</div>
+        </div>
+      </div>
+
+      <button id="target" type="button">
+        クリックしてスタート！
+      </button>
+
+      <p id="message" aria-live="polite">
+        最初のクリックから計測開始
+      </p>
+
+      <button id="reset" type="button">もう一度</button>
+    </section>
+
+    <footer>© stone block 2026</footer>
   </main>
 
   <script>
@@ -144,65 +490,18 @@
     const cpsText = document.querySelector("#cps");
     const message = document.querySelector("#message");
     const reset = document.querySelector("#reset");
+    const durationButtons = document.querySelectorAll(".duration-button");
 
-    const duration = 5000;
+    let duration = 10;
     let clicks = 0;
     let started = false;
     let finished = false;
     let startTime = 0;
     let timerId = null;
 
-    function updateTimer() {
-      const remaining = Math.max(
-        0,
-        duration - (performance.now() - startTime)
-      );
-
-      timeText.textContent = (remaining / 1000).toFixed(1);
-
-      if (remaining <= 0) {
-        finish();
-      }
-    }
-
-    function finish() {
-      if (finished) return;
-
-      finished = true;
+    function resetTest() {
       clearInterval(timerId);
-
-      timeText.textContent = "0.0";
-      cpsText.textContent = (clicks / (duration / 1000)).toFixed(1);
-      target.disabled = true;
-      target.textContent = "計測終了！";
-      message.textContent = `${clicks} 回クリック！お疲れさま！`;
-    }
-
-    target.addEventListener("click", () => {
-      if (finished) return;
-
-      if (!started) {
-        started = true;
-        startTime = performance.now();
-        timerId = setInterval(updateTimer, 30);
-        target.textContent = "連打！！";
-        message.textContent = "クリック！クリック！";
-      }
-
-      if (performance.now() - startTime >= duration) {
-        finish();
-        return;
-      }
-
-      clicks++;
-      countText.textContent = clicks;
-      cpsText.textContent =
-        (clicks / Math.max(0.001, (performance.now() - startTime) / 1000))
-          .toFixed(1);
-    });
-
-    reset.addEventListener("click", () => {
-      clearInterval(timerId);
+      timerId = null;
 
       clicks = 0;
       started = false;
@@ -210,12 +509,100 @@
       startTime = 0;
 
       countText.textContent = "0";
-      timeText.textContent = "5.0";
+      timeText.textContent = duration.toFixed(1);
       cpsText.textContent = "0.0";
+
       target.disabled = false;
       target.textContent = "クリックしてスタート！";
       message.textContent = "最初のクリックから計測開始";
+
+      durationButtons.forEach(button => {
+        button.disabled = false;
+      });
+    }
+
+    function finish() {
+      if (finished) return;
+
+      finished = true;
+      clearInterval(timerId);
+      timerId = null;
+
+      timeText.textContent = "0.0";
+      cpsText.textContent = (clicks / duration).toFixed(1);
+
+      target.disabled = true;
+      target.textContent = "計測終了！";
+      message.textContent =
+        `${clicks}回クリック！ CPS: ${(clicks / duration).toFixed(1)}`;
+
+      durationButtons.forEach(button => {
+        button.disabled = false;
+      });
+    }
+
+    function updateTimer() {
+      if (!started || finished) return;
+
+      const elapsed = performance.now() - startTime;
+      const remaining = Math.max(0, duration * 1000 - elapsed);
+
+      timeText.textContent = (remaining / 1000).toFixed(1);
+
+      if (remaining <= 0) {
+        finish();
+        return;
+      }
+
+      cpsText.textContent =
+        (clicks / Math.max(elapsed / 1000, 0.001)).toFixed(1);
+    }
+
+    durationButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        if (started && !finished) return;
+
+        duration = Number(button.dataset.seconds);
+
+        durationButtons.forEach(other => {
+          other.setAttribute(
+            "aria-pressed",
+            String(other === button)
+          );
+        });
+
+        resetTest();
+      });
     });
+
+    target.addEventListener("click", () => {
+      if (finished) return;
+
+      if (!started) {
+        started = true;
+        startTime = performance.now();
+
+        target.textContent = "連打！！";
+        message.textContent = "ひたすらクリック！";
+
+        durationButtons.forEach(button => {
+          button.disabled = true;
+        });
+
+        timerId = setInterval(updateTimer, 25);
+      }
+
+      if (performance.now() - startTime >= duration * 1000) {
+        finish();
+        return;
+      }
+
+      clicks++;
+      countText.textContent = clicks;
+      updateTimer();
+    });
+
+    reset.addEventListener("click", resetTest);
   </script>
 </body>
 </html>
