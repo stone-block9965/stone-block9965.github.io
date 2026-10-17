@@ -173,6 +173,27 @@
             opacity: 0.62;
         }
 
+        /* =========================
+           Visitor counter
+        ========================= */
+
+        .visitor-counter {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-left: auto;
+            flex: 0 0 auto;
+            line-height: 0;
+        }
+
+        .visitor-counter img {
+            display: block;
+            width: 150px;
+            max-width: 100%;
+            height: auto;
+            image-rendering: pixelated;
+        }
+
         .brand:focus-visible,
         .nav-link:focus-visible {
             outline: 3px solid rgba(78, 120, 255, 0.35);
@@ -400,6 +421,10 @@
                 font-size: 13px;
             }
 
+            .visitor-counter img {
+                width: 108px;
+            }
+
             .container {
                 width: min(100% - 28px, 760px);
                 padding-top: 78px;
@@ -420,8 +445,21 @@
                 font-size: 22px;
             }
 
+            .nav-inner {
+                gap: 10px;
+                width: min(100% - 20px, 1180px);
+            }
+
+            .brand {
+                font-size: 20px;
+            }
+
             .nav-link {
-                font-size: 12px;
+                font-size: 11px;
+            }
+
+            .visitor-counter img {
+                width: 64px;
             }
 
             .hero-title {
@@ -468,6 +506,14 @@
             <a class="nav-link" href="/links/">
                 リンク
             </a>
+
+            <div class="visitor-counter" aria-label="サイト訪問者カウンター">
+                <img
+                    src="https://count.getloli.com/@stone_block9965?theme=rule34&amp;padding=6&amp;offset=0&amp;align=top&amp;scale=1.1&amp;pixelated=1&amp;darkmode=0"
+                    alt="stone block website visitor counter"
+                    loading="lazy"
+                >
+            </div>
 
         </nav>
 
