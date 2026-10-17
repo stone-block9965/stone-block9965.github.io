@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NoSlop Fast — Zero Slop, Faster</title>
+    <meta name="description" content="NoSlop Fast is a lightweight Minecraft modpack focused on performance and a familiar vanilla experience.">
+    <meta property="og:title" content="NoSlop Fast — Zero Slop, Faster">
+    <meta property="og:description" content="A lightweight Minecraft experience, built with performance in mind.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://stone-block9965.pages.dev/modpack/">
+    <meta property="og:site_name" content="NoSlop Fast">
+    <meta name="twitter:card" content="summary">
+    <meta name="theme-color" content="#edf6ff">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        :root {
+            --text: #111111;
+            --subtext: #5e6a78;
+            --nav-border: rgba(0, 0, 0, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.65);
+            --shadow: rgba(55, 75, 105, 0.18);
+            --bar: rgba(41, 49, 65, 0.78);
+        }
+
+        html { scroll-behavior: smooth; }
+        html, body { margin: 0; min-height: 100%; }
+
+        body {
+            min-height: 100dvh;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans JP", "Yu Gothic", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 20%, rgba(110, 160, 255, 0.45), transparent 32%),
+                radial-gradient(circle at 85% 20%, rgba(190, 150, 255, 0.35), transparent 30%),
+                radial-gradient(circle at 50% 90%, rgba(70, 210, 220, 0.25), transparent 38%),
+                linear-gradient(135deg, #edf6ff 0%, #f5efff 50%, #ecfbff 100%);
+            overflow-x: hidden;
+        }
+
+        body::before, body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(12px);
+            z-index: -1;
+        }
+        body::before {
+            width: 35vw; height: 35vw; left: -10vw; top: 48vh;
+            background: rgba(90, 150, 255, 0.14);
+        }
+        body::after {
+            width: 30vw; height: 30vw; right: -10vw; top: 55vh;
+            background: rgba(150, 110, 255, 0.13);
+        }
+
+        /* Top navigation — intentionally mirrors the stone block homepage. */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            background: #ffffff;
+            border-bottom: 1px solid var(--nav-border);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+        }
+        .nav-inner {
+            width: min(1180px, calc(100% - 40px));
+            min-height: 68px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(18px, 3vw, 40px);
+        }
+        .brand {
+            color: #000;
+            text-decoration: none;
+            font-size: clamp(23px, 2.8vw, 34px);
+            font-weight: 800;
+            letter-spacing: -0.055em;
+            line-height: 1;
+            white-space: nowrap;
+            transition: opacity 160ms ease;
+        }
+        .brand:hover { opacity: 0.62; }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(14px, 2.6vw, 34px);
+            margin-left: 0;
+        }
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: color 160ms ease, opacity 160ms ease;
+        }
+        .nav-link:hover { color: #000; opacity: 0.62; }
+        .brand:focus-visible, .nav-link:focus-visible, .home-link:focus-visible, .download-button:focus-visible {
+            outline: 3px solid rgba(78, 120, 255, 0.35);
+            outline-offset: 5px;
+        }
+
+        .container {
+            width: min(1040px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: clamp(54px, 8vw, 90px) 0 44px;
+        }
+
+        /* Main layout: title on the left, comparison chart on the right. */
+        .showcase {
+            display: grid;
+            grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+            align-items: center;
+            gap: clamp(24px, 4vw, 48px);
+        }
+        .showcase-intro {
+            min-width: 0;
+            text-align: left;
+        }
+        .showcase-title {
+            margin: 0;
+            color: #000;
+            font-size: clamp(38px, 4.7vw, 58px);
+            line-height: 1.08;
+            letter-spacing: -0.06em;
+            font-weight: 850;
+            text-wrap: balance;
+        }
+        .showcase-description {
+            max-width: 430px;
+            margin: 18px 0 0;
+            color: var(--subtext);
+            font-size: clamp(14px, 1.5vw, 16px);
+            line-height: 1.8;
+        }
+
+        /* The four-column graph is text-first so it remains readable without scripts. */
+        .comparison {
+            padding: clamp(18px, 3vw, 30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 26px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.48), rgba(255,255,255,0.22));
+            box-shadow: 0 12px 30px var(--shadow), inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -1px 0 rgba(255,255,255,0.18);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+        }
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            align-items: end;
+            gap: clamp(10px, 2.5vw, 26px);
+        }
+        .chart-item { min-width: 0; text-align: center; }
+        .chart-label {
+            display: flex;
+            min-height: 2.7em;
+            justify-content: center;
+            align-items: center;
+            margin: 0 0 7px;
+            color: #465264;
+            font-size: clamp(10px, 1.5vw, 13px);
+            font-weight: 600;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
+        .chart-value {
+            display: block;
+            margin-bottom: 11px;
+            color: #161a22;
+            font-size: clamp(21px, 3vw, 30px);
+            font-weight: 780;
+            letter-spacing: -0.045em;
+            font-variant-numeric: tabular-nums;
+        }
+        .bar-track {
+            display: flex;
+            align-items: end;
+            height: 112px;
+            overflow: hidden;
+            border-radius: 12px 12px 7px 7px;
+            background: rgba(255,255,255,0.42);
+            border: 1px solid rgba(255,255,255,0.58);
+        }
+        .bar {
+            display: block;
+            width: 100%;
+            min-height: 8px;
+            border-radius: 10px 10px 0 0;
+            background: linear-gradient(180deg, rgba(47, 55, 72, 0.92), rgba(47, 55, 72, 0.66));
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+            gap: 18px;
+            align-items: stretch;
+            margin-top: clamp(28px, 4vw, 40px);
+        }
+        .info-card {
+            min-width: 0;
+            padding: clamp(22px, 3.5vw, 32px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.48), rgba(255,255,255,0.22));
+            box-shadow: 0 12px 30px var(--shadow), inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -1px 0 rgba(255,255,255,0.18);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+        }
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0;
+            color: #080a0e;
+            font-size: clamp(25px, 3.3vw, 34px);
+            font-weight: 800;
+            letter-spacing: -0.045em;
+            line-height: 1.15;
+        }
+        .section-icon {
+            flex: 0 0 auto;
+            width: 25px;
+            height: 25px;
+            color: #17191e;
+        }
+        .info-card p {
+            margin: 18px 0 0;
+            color: var(--subtext);
+            font-size: 15px;
+            line-height: 1.85;
+        }
+        .feature-list {
+            display: grid;
+            gap: 10px;
+            margin: 20px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: #344052;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+        .feature-list li::before {
+            content: "✓";
+            display: inline-grid;
+            place-items: center;
+            flex: 0 0 20px;
+            width: 20px;
+            height: 20px;
+            margin-top: 1px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.68);
+            border: 1px solid rgba(255,255,255,0.85);
+            color: #202938;
+            font-size: 12px;
+            font-weight: 800;
+        }
+        .fabric-mark {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-top: 20px;
+            padding: 9px 13px;
+            border: 1px solid rgba(255,255,255,0.82);
+            border-radius: 999px;
+            background: rgba(255,255,255,0.42);
+            color: #252c38;
+            font-size: 13px;
+            font-weight: 650;
+        }
+        .fabric-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 3px;
+            background: #242b37;
+            transform: rotate(45deg);
+        }
+
+        .download-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            margin-top: clamp(58px, 8vw, 92px);
+            text-align: center;
+        }
+        .download-title {
+            margin: 0;
+            color: #000;
+            font-size: clamp(56px, 11vw, 100px);
+            line-height: 1;
+            letter-spacing: -0.065em;
+            font-weight: 850;
+            text-wrap: balance;
+        }
+        .download-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            min-height: 64px;
+            padding: 16px 27px;
+            border: 1px solid var(--glass-border);
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.58), rgba(255,255,255,0.28));
+            color: var(--text);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 750;
+            box-shadow: 0 12px 30px var(--shadow), inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -1px 0 rgba(255,255,255,0.18);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+        }
+        .download-button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0.38));
+            box-shadow: 0 18px 36px rgba(55,75,105,0.22), inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+        .download-button:active { transform: scale(0.99); }
+        .download-button:focus-visible {
+            outline: 3px solid rgba(78,120,255,0.35);
+            outline-offset: 4px;
+        }
+        .download-arrow { font-size: 22px; line-height: 1; }
+
+        footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px 16px;
+            margin-top: 44px;
+            text-align: center;
+            color: rgba(65, 77, 93, 0.72);
+            font-size: 12px;
+        }
+        .home-link {
+            color: rgba(55, 67, 83, 0.86);
+            text-decoration: underline;
+            text-decoration-color: rgba(55, 67, 83, 0.28);
+            text-underline-offset: 3px;
+            transition: opacity 160ms ease;
+        }
+        .home-link:hover { opacity: 0.65; }
+
+        @media (max-width: 700px) {
+            .nav-inner { width: calc(100% - 28px); min-height: 62px; gap: 14px; }
+            .brand { font-size: 23px; }
+            .nav-links { gap: 14px; }
+            .nav-link { font-size: 13px; }
+            .container { width: calc(100% - 28px); padding-top: 48px; }
+            .showcase { grid-template-columns: 1fr; gap: 28px; }
+            .showcase-title { font-size: clamp(38px, 7vw, 52px); }
+            .comparison { border-radius: 22px; padding: 18px 14px 16px; }
+            .bar-track { height: 92px; }
+            .info-grid { gap: 14px; margin-top: 28px; }
+        }
+        @media (max-width: 520px) {
+            .nav-inner { min-height: 60px; gap: 10px; }
+            .brand { font-size: clamp(17px, 4.5vw, 22px); letter-spacing: -0.06em; }
+            .nav-links { gap: clamp(9px, 2.6vw, 14px); }
+            .nav-link { font-size: clamp(10px, 2.8vw, 12px); }
+            .container { padding-top: 34px; }
+            .chart-grid { gap: 7px; }
+            .chart-label { min-height: 3.6em; font-size: clamp(9px, 2.4vw, 11px); }
+            .chart-value { font-size: clamp(18px, 5vw, 24px); margin-bottom: 8px; }
+            .bar-track { height: 76px; border-radius: 8px 8px 5px 5px; }
+            .showcase { gap: 23px; }
+            .showcase-intro { text-align: left; }
+            .showcase-title { font-size: clamp(34px, 9vw, 44px); }
+            .showcase-description { margin-top: 13px; }
+            .download-title { font-size: clamp(48px, 13vw, 68px); }
+            .download-button { min-height: 60px; padding: 15px 22px; font-size: 17px; border-radius: 20px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .info-card { padding: 22px; border-radius: 21px; }
+            .section-title { font-size: 28px; }
+            footer { margin-top: 34px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .brand, .nav-link, .home-link, .download-button { transition: none; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <nav class="nav-inner" aria-label="Main navigation">
+            <a class="brand" href="/modpack/" aria-label="NoSlop Fast home">NoSlop Fast</a>
+            <div class="nav-links">
+                <a class="nav-link" href="https://modrinth.com/modpack/noslop-fast" target="_blank" rel="noopener noreferrer">About</a>
+                <a class="nav-link" href="https://www.curseforge.com/members/stone_block9965/projects" target="_blank" rel="noopener noreferrer">CurseForge</a>
+                <a class="nav-link" href="https://modrinth.com/user/stoneblock9965" target="_blank" rel="noopener noreferrer">Modrinth</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="showcase" aria-label="NoSlop Fast introduction and performance comparison">
+            <div class="showcase-intro">
+                <h1 class="showcase-title">Zero Slop, Faster</h1>
+                <p class="showcase-description">A lightweight Minecraft experience focused on performance. No unnecessary extras — just a cleaner, faster way to play.</p>
+            </div>
+            <section class="comparison" aria-label="Performance comparison chart">
+            <div class="chart-grid">
+                <div class="chart-item">
+                    <p class="chart-label">NoSlop Fast</p>
+                    <strong class="chart-value">534</strong>
+                    <div class="bar-track" aria-hidden="true"><span class="bar" style="height: 100%"></span></div>
+                </div>
+                <div class="chart-item">
+                    <p class="chart-label">Other Popular Modpack</p>
+                    <strong class="chart-value">231</strong>
+                    <div class="bar-track" aria-hidden="true"><span class="bar" style="height: 43.3%"></span></div>
+                </div>
+                <div class="chart-item">
+                    <p class="chart-label">Popular Game Client</p>
+                    <strong class="chart-value">197</strong>
+                    <div class="bar-track" aria-hidden="true"><span class="bar" style="height: 36.9%"></span></div>
+                </div>
+                <div class="chart-item">
+                    <p class="chart-label">Vanilla Minecraft</p>
+                    <strong class="chart-value">68</strong>
+                    <div class="bar-track" aria-hidden="true"><span class="bar" style="height: 12.7%"></span></div>
+                </div>
+            </div>
+            </section>
+        </section>
+
+        <section class="info-grid" aria-label="About NoSlop Fast">
+            <article class="info-card">
+                <h2 class="section-title">
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M3.5 20.5V3.5M3.5 20.5H21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                        <path d="M7 17V11.5H10.5V17M13 17V6.5H16.5V17M19 17V9H21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Performance
+                </h2>
+                <p>NoSlop Fast is built around one goal: making Minecraft feel smoother, especially on lower-end hardware, while keeping the experience familiar.</p>
+                <ul class="feature-list">
+                    <li>Focused on performance instead of extra content.</li>
+                    <li>A lightweight setup for a more responsive game.</li>
+                    <li>Designed to keep the core Minecraft experience front and center.</li>
+                </ul>
+            </article>
+
+            <article class="info-card">
+                <h2 class="section-title">Created with Fabric</h2>
+                <p>Built on Fabric, a lightweight mod loader for Minecraft. The project keeps its focus on a simple setup and performance-minded gameplay.</p>
+                <div class="fabric-mark"><span class="fabric-dot" aria-hidden="true"></span> Built with Fabric</div>
+            </article>
+        </section>
+
+        <section class="download-section" aria-label="Download NoSlop Fast">
+            <h2 class="download-title">Download Now!</h2>
+            <a class="download-button" href="https://modrinth.com/modpack/noslop-fast" target="_blank" rel="noopener noreferrer">
+                NoSlop Fast on Modrinth <span class="download-arrow" aria-hidden="true">↗</span>
+            </a>
+        </section>
+
+        <footer>
+            <span>© stone block 2026</span>
+            <span aria-hidden="true">·</span>
+            <a class="home-link" href="https://stone-block9965.pages.dev/">stone block Homepage</a>
+        </footer>
+    </main>
+</body>
+</html>
